@@ -21,6 +21,7 @@ pipeline {
         withNPM(npmrcConfig: 'npmrc') {
           sh 'npm publish . --dry-run'
        }
+          sh 'npm publish . --dry-run'
       }
     }
 
