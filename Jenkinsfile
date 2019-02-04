@@ -35,19 +35,20 @@ pipeline {
     }
 
     stage('master') {
-      when branch 'master'
       steps {
+        when branch 'master'
         sh 'git status'
       }
     }
 
     stage('feature') {
-      when {
-        not {
-          branch 'master' 
-        }
-      }
       steps {
+        when {
+          not {
+            branch 'master' 
+          }
+        }
+
         def localVersion = sh(
             script: 'node -pe "require(\'./package.json\').version"',
             returnStdout: true
