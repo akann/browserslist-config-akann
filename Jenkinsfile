@@ -50,7 +50,7 @@ pipeline {
 
       steps {
         script {
-          sh 'yarn verson:up'
+          sh 'yarn version:up'
 
           def localVersion = sh(
               script: 'node -pe "require(\'./package.json\').version"',
