@@ -15,6 +15,14 @@ pipeline {
     BRANCH_NAME = env.GIT_BRANCH.substring(env.GIT_BRANCH.lastIndexOf('/') + 1, env.GIT_BRANCH.length())
   }
 
+  stage('build') {
+    steps {
+      withNPM(npmrcConfig: 'npmrc') {
+        sh 'npm publish . --dry-run'
+     }
+    }
+  }
+
   stages {
     stage('test') {
       steps {
