@@ -62,7 +62,7 @@ pipeline {
 
           def newversion = "${localVersion}-beta.${env.BUILD_NUMBER}"
 
-          sh "npm publish --new-version ${newversion} --tag ${BRANCH_NAME} --dry-run"
+          sh "npm publish . --new-version ${newversion} --tag ${BRANCH_NAME} --dry-run"
         }
       }
     }
