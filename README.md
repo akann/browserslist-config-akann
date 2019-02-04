@@ -67,6 +67,6 @@ To get started, add this to your `package.json` file:
 [MIT License][license-url]
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
-[license-url]: https://github.com/akann/browserslist-config/blob/master/LICENSE
+[license-url]: https://github.com/akann/browserslist-config-akann/blob/master/LICENSE
 [version-image]: https://img.shields.io/npm/v/browserslist-config-akann.svg
 [version-url]: https://www.npmjs.com/package/browserslist-config-akann
