@@ -49,17 +49,19 @@ pipeline {
       }
 
       steps {
-        def localVersion = sh(
-            script: 'node -pe "require(\'./package.json\').version"',
+        script {
+          def localVersion = sh(
+              script: 'node -pe "require(\'./package.json\').version"',
+              returnStdout: true
+          ).trim().replace('"', '')
+
+          def remoteVersion = sh(
+            script: "npm info browserslist-config-akann@${localVersion} version",
             returnStdout: true
-        ).trim().replace('"', '')
+          ).trim().replace('"', '')
 
-        def remoteVersion = sh(
-          script: "npm info browserslist-config-akann@${localVersion} version",
-          returnStdout: true
-        ).trim().replace('"', '')
-
-        sh 'npm publish --new-version ${localVersion}-${BRANCH_NAME} --dry-run'
+          sh 'npm publish --new-version ${localVersion}-${BRANCH_NAME} --dry-run'
+        }
       }
     }
 
