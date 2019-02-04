@@ -60,14 +60,13 @@ pipeline {
             returnStdout: true
           ).trim().replace('"', '')
 
-          sh 'npm publish --new-version ${localVersion}-${BRANCH_NAME} --dry-run'
+          echo "npm publish --new-version ${localVersion}-${BRANCH_NAME} --dry-run"
         }
       }
     }
 
     stage('publish') {
       steps {
-        sh 'yarn install'
         echo sh(returnStdout: true, script: 'env')
       }
     }
