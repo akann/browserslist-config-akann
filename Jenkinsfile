@@ -50,10 +50,9 @@ pipeline {
 
            if (BRANCH_NAME != 'master') {
              sh 'git diff'
-             sh "git remote add origin ${env.GIT_URL}"
              sh 'git add package.json'
              sh 'git commit -m "version++" package.json'
-             sh "git push --set-upstream origin ${BRANCH_NAME}"
+             sh "git push --set-upstream origin HEAD:${BRANCH_NAME}"
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
