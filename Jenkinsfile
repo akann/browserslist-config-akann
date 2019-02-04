@@ -22,6 +22,12 @@ pipeline {
       }
     }
 
+    stage('gitsc') {
+      steps {
+        git branch: 'demo', credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f', url: 'git@github.com:akann/browserslist-config-akann.git'
+      }
+    }
+
     stage('test') {
       steps {
         sh 'npm publish . --dry-run'
