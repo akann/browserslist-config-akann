@@ -57,7 +57,8 @@ pipeline {
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
-           echo 'herex'
+           echo 'here'
+
            sh "npm publish ./ --dry-run"
         }
       }
