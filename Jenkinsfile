@@ -45,8 +45,11 @@ pipeline {
            ).trim().replace('"', '')
 
            if (BRANCH_NAME != 'master') {
-             sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
              sh 'git diff'
+             sh 'git add package.json'
+             sh 'git commit -m "version++" package.json'
+
+             sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
            echo 'here'
