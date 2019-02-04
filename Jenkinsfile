@@ -34,24 +34,26 @@ pipeline {
       }
     }
 
-    steps {
-      script {
-        sh 'yarn version:up'
+    stage('publish') {
+      steps {
+        script {
+          sh 'yarn version:up'
 
-        def localVersion = sh(
-           script: 'node -pe "require(\'./package.json\').version"',
-           returnStdout: true
-         ).trim().replace('"', '')
+          def localVersion = sh(
+             script: 'node -pe "require(\'./package.json\').version"',
+             returnStdout: true
+           ).trim().replace('"', '')
 
-         def newversion = BRANCH_NAME == 'master' ? localVersion :  "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
+           def newversion = BRANCH_NAME == 'master' ? localVersion :  "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
 
-         sh "yarn version --no-git-tag-version --new-version ${newversion}"
+           sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
-         sh "npm publish ./ --dry-run"
+           sh "npm publish ./ --dry-run"
+        }
       }
     }
 
-    stage('publish') {
+    stage('demo') {
       steps {
         echo sh(returnStdout: true, script: 'env')
       }
