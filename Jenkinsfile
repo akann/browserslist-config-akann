@@ -49,7 +49,8 @@ pipeline {
 
              sh 'yarn version:up'
              sh 'git diff package.json'
-             sh 'git commit -a -m "version++" package.json'
+             sh 'git add package.json'
+             sh 'git commit -m "version++" package.json'
              sh "git push origin ${BRANCH_NAME}"
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
