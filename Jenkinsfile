@@ -16,17 +16,15 @@ pipeline {
   }
 
   stages {
-    stage('build') {
+    stage('npmrc') {
       steps {
-        withNPM(npmrcConfig: 'npmrc') {
-          sh 'npm publish . --dry-run'
-       }
+        withNPM(npmrcConfig: 'npmrc') { }
       }
     }
 
     stage('test') {
       steps {
-          sh 'npm publish . --dry-run'
+        sh 'npm publish . --dry-run'
         sh 'yarn install'
         echo sh(returnStdout: true, script: 'env')
       }
