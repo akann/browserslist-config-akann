@@ -43,15 +43,18 @@ pipeline {
            ).trim().replace('"', '')
 
            if (BRANCH_NAME != 'master') {
+/**
                git url: env.GIT_URL,
                   credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f',
                   branch: BRANCH_NAME
- 
+*/ 
                sh 'yarn version:up'
                sh 'git diff package.json'
+/**
                sh 'git add package.json'
                sh 'git commit -m "version++" package.json'
                sh "git push origin ${BRANCH_NAME}"
+*/
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
              sh 'git diff package.json'
