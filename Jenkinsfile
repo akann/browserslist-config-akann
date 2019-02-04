@@ -57,7 +57,7 @@ pipeline {
               returnStdout: true
           ).trim().replace('"', '')
 
-          def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase()}"
+          def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase()}.replaceAll('-', '')"
 
           sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
