@@ -49,7 +49,7 @@ $ npm install --save-dev browserslist-config-akann
 
 ### yarn
 ```
-$ npm install --save-dev browserslist-config-akann
+$ yarn add -D browserslist-config-akann
 ```
 
 ## Usage
