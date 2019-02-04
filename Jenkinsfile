@@ -24,7 +24,7 @@ pipeline {
 
     stage('gitsc') {
       steps {
-        git branch: 'demo', credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f', url: 'git@github.com:akann/browserslist-config-akann.git'
+        git credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f'
         sh 'git status'
       }
     }
