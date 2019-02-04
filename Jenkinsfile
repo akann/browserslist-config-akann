@@ -46,6 +46,7 @@ pipeline {
 
            if (BRANCH_NAME != 'master') {
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
+             sh 'git diff'
            }
 
            echo 'here'
