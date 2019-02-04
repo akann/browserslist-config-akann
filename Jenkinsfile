@@ -45,6 +45,7 @@ pipeline {
            ).trim().replace('"', '')
 
            if (BRANCH_NAME != 'master') {
+             sh 'git diff'
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
