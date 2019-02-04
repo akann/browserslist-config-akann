@@ -55,16 +55,16 @@ pipeline {
               returnStdout: true
           ).trim().replace('"', '')
 
+          def newversion = "${localVersion}-beta.${env.BUILD_NUMBER}"
+
           def remoteVersion = sh(
-            script: "npm info browserslist-config-akann@${localVersion} version",
+            script: "npm info browserslist-config-akann@${newversion} version",
             returnStdout: true
           ).trim().replace('"', '')
 
-          def newversion = "${localVersion}-beta.${env.BUILD_NUMBER}"
+          sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
-          sh "echo ${newversion} | yarn version --no-git-tag-version"
-
-          sh "npm publish --tag ${BRANCH_NAME} --dry-run"
+          sh "npm publish ./ --tag ${BRANCH_NAME} --dry-run"
         }
       }
     }
