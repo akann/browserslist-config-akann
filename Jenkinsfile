@@ -47,7 +47,7 @@ pipeline {
            if (BRANCH_NAME != 'master') {
              sh 'git diff package.json'
              sh 'git commit -a -m "version++"'
-             sh "git push origin HEAD:${BRANCH_NAME}"
+             sh "git push origin ${BRANCH_NAME}"
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
              sh 'git diff package.json'
