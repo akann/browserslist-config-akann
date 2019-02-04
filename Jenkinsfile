@@ -46,7 +46,7 @@ pipeline {
 
            if (BRANCH_NAME != 'master') {
              sh 'git diff package.json'
-             sh "yarn version --no-git-tag-version --new-version "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
+             sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
            sh "npm publish ./ --dry-run"
