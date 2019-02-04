@@ -41,27 +41,20 @@ pipeline {
       }
     }
 
-    stage('feature') {
-      when {
-        not {
-          branch 'master' 
-        }
-      }
+    steps {
+      script {
+        sh 'yarn version:up'
 
-      steps {
-        script {
-          sh 'yarn version:up'
+        def localVersion = sh(
+           script: 'node -pe "require(\'./package.json\').version"',
+           returnStdout: true
+         ).trim().replace('"', '')
 
-          def localVersion = sh(
-              script: 'node -pe "require(\'./package.json\').version"',
-              returnStdout: true
-          ).trim().replace('"', '')
+         def newversion = BRANCH_NAME == 'master' ? localVersion : "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
 
-          def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
+         sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
-          sh "yarn version --no-git-tag-version --new-version ${newversion}"
-
-          sh "npm publish ./ --tag ${BRANCH_NAME} --dry-run"
+         sh "npm publish ./ --dry-run"
         }
       }
     }
