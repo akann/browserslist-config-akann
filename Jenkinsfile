@@ -59,7 +59,7 @@ pipeline {
 
           def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase()}"
 
-          sh "yarn version --no-git-tag-version --new-version -${newversion}"
+          sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
           sh "npm publish ./ --tag ${BRANCH_NAME} --dry-run"
         }
