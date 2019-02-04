@@ -45,6 +45,10 @@ pipeline {
            ).trim().replace('"', '')
 
            if (BRANCH_NAME != 'master') {
+             git url: env.GIT_URL,
+                 credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f',
+                 branch: BRANCH_NAME
+
              sh 'git diff package.json'
              sh 'git commit -a -m "version++"'
              sh "git push origin ${BRANCH_NAME}"
