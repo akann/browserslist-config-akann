@@ -34,13 +34,6 @@ pipeline {
       }
     }
 
-    stage('master') {
-      when { branch 'master'}
-      steps {
-        sh 'git status'
-      }
-    }
-
     steps {
       script {
         sh 'yarn version:up'
@@ -50,7 +43,7 @@ pipeline {
            returnStdout: true
          ).trim().replace('"', '')
 
-         def newversion = (env.BRANCH_NAME == 'master') ? localVersion : "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
+         def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
 
          sh "yarn version --no-git-tag-version --new-version ${newversion}"
 
