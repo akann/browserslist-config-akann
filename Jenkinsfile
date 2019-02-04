@@ -60,7 +60,9 @@ pipeline {
             returnStdout: true
           ).trim().replace('"', '')
 
-          sh "npm publish --new-version ${localVersion}-${BRANCH_NAME} --tag ${BRANCH_NAME} --dry-run"
+          def newversion = "${localVersion}-beta.${env.BUILD_NUMBER}"
+
+          sh "npm publish --new-version ${new} --tag ${BRANCH_NAME} --dry-run"
         }
       }
     }
