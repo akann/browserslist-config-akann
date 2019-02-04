@@ -50,19 +50,16 @@ pipeline {
 
       steps {
         script {
+          sh 'yarn verson:up'
+
           def localVersion = sh(
               script: 'node -pe "require(\'./package.json\').version"',
               returnStdout: true
           ).trim().replace('"', '')
 
-          def newversion = "${localVersion}-beta.${env.BUILD_NUMBER}"
+          def newversion = "${localVersion}-${BRANCH_NAME.toLowerCase()}"
 
-          def remoteVersion = sh(
-            script: "npm info browserslist-config-akann@${newversion} version",
-            returnStdout: true
-          ).trim().replace('"', '')
-
-          sh "yarn version --no-git-tag-version --new-version ${newversion}"
+          sh "yarn version --no-git-tag-version --new-version -${newversion}"
 
           sh "npm publish ./ --tag ${BRANCH_NAME} --dry-run"
         }

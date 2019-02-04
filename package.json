@@ -1,10 +1,11 @@
 {
   "name": "browserslist-config-akann",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Shareable Browserslist Config by Akan Nkweini",
   "main": "index.js",
   "scripts": {
-     "test": "node ./"
+    "test": "node ./",
+    "version:up": "npm --no-git-tag-version version patch"
   },
   "keywords": [
     "browserslist",
