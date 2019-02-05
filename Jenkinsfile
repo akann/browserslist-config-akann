@@ -52,7 +52,7 @@ pipeline {
              sh 'git add package.json'
              sh 'git commit -m "version++"'
              
-             sh "git tag -a v${localVersion} \"$(git log --pretty=format:'%h : %an : %ae : %s' -1)\"\"
+             sh "git tag -a v${localVersion} \"$(git log --pretty=format:'%h : %an : %ae : %s' -1)\""
              sh 'git push --tags'
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
