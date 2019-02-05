@@ -53,7 +53,7 @@ pipeline {
              sh 'git commit -m "version++" package.json'
              
              sshagent(credentials: ['d76aa6e6-c911-4491-9c38-9712b1a81743']) {
-               sh "git push --set-upstream origin HEAD:${BRANCH_NAME}"
+               sh "git push --set-upstream origin ${BRANCH_NAME}"
              }
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
