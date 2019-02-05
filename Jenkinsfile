@@ -73,6 +73,14 @@ pipeline {
 
   post { 
 
+    cleanup { 
+      cleanWs()
+    }
+
+
+  }
+
+}
     publishers {
         git {
             pushOnlyIfSuccess()
@@ -84,11 +92,3 @@ pipeline {
     }
 
 
-    cleanup { 
-      cleanWs()
-    }
-
-
-  }
-
-}
