@@ -37,7 +37,7 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          git checkout ${BRANCH_NAME}
+          sh "git checkout ${BRANCH_NAME}"
 
           sh 'yarn version:up'
 
