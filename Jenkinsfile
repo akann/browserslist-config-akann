@@ -54,7 +54,6 @@ pipeline {
              
              def msg = sh(script: "git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
              sh "git tag -a v${localVersion} -m '${msg}'"
-             sh 'git push --tags'
 
             publishers {
                 git {
