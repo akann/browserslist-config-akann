@@ -52,7 +52,8 @@ pipeline {
              sh 'git add package.json'
              sh 'git commit -m "version++"'
              
-             sh "git tag -a v${localVersion} -m 'worled  fnhfh'"
+             def msg = sh(script: "git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
+             sh "git tag -a v${localVersion} -m '${msg}'"
              sh 'git push --tags'
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
