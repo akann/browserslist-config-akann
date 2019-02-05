@@ -38,7 +38,7 @@ pipeline {
       steps {
         script {
           git url: env.GIT_URL,
-                  credentialsId: 'bef5392-cccc-4cd4-9379-20998cbae0fb',
+                  credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f',
                   branch: BRANCH_NAME
 
           sh 'yarn version:up'
