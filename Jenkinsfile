@@ -54,17 +54,6 @@ pipeline {
              
              def msg = sh(script: "git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
              sh "git tag -a v${localVersion} -m '${msg}'"
-
-            publishers {
-                git {
-                    pushOnlyIfSuccess()
-                    tag('origin', 'foo-PIPELINE_VERSION') {
-                        message('Release PIPELINE_VERSION')
-                        create()
-                    }
-                }
-            }
-
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
@@ -87,4 +76,16 @@ pipeline {
       cleanWs()
     }
   }
+
+            publishers {
+                git {
+                    pushOnlyIfSuccess()
+                    tag('origin', 'foo-PIPELINE_VERSION') {
+                        message('Release PIPELINE_VERSION')
+                        create()
+                    }
+                }
+            }
+
+
 }
