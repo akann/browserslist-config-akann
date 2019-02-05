@@ -37,10 +37,7 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          git url: env.GIT_URL,
-                  credentialsId: 'd76aa6e6-c911-4491-9c38-9712b1a81743',
-                  branch: BRANCH_NAME
-
+          sh "git checkout ${BRANCH_NAME}"
           sh 'yarn version:up'
 
           def localVersion = sh(
@@ -54,7 +51,10 @@ pipeline {
              sh 'git diff'
              sh 'git add package.json'
              sh 'git commit -m "version++" package.json'
-             sh "git push --set-upstream origin HEAD:${BRANCH_NAME}"
+             
+             sshagent(credentials: ['d76aa6e6-c911-4491-9c38-9712b1a81743']) {
+               sh "git push --set-upstream origin HEAD:${BRANCH_NAME}"
+             }
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
