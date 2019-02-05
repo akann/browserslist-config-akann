@@ -37,7 +37,9 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          sh "git checkout ${BRANCH_NAME}"
+          git url: env.GIT_URL,
+                  credentialsId: 'd76aa6e6-c911-4491-9c38-9712b1a81743',
+                  branch: BRANCH_NAME
 
           sh 'yarn version:up'
 
