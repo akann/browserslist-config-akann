@@ -52,7 +52,6 @@ pipeline {
              sh 'git add package.json'
              sh 'git commit -m "version++" package.json'
              
-               sh "git push --set-upstream origin ${BRANCH_NAME}"
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
@@ -68,6 +67,12 @@ pipeline {
       steps {
         echo sh(returnStdout: true, script: 'env')
       }
+    }
+  }
+
+  post { 
+    always { 
+      cleanWs()
     }
   }
 }
