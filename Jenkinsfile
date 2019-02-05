@@ -56,6 +56,16 @@ pipeline {
              sh "git tag -a v${localVersion} -m '${msg}'"
              sh 'git push --tags'
 
+            publishers {
+                git {
+                    pushOnlyIfSuccess()
+                    tag('origin', 'foo-PIPELINE_VERSION') {
+                        message('Release PIPELINE_VERSION')
+                        create()
+                    }
+                }
+            }
+
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
 
@@ -74,7 +84,7 @@ pipeline {
   }
 
   post { 
-    always { 
+    cleanup { 
       cleanWs()
     }
   }
