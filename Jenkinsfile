@@ -72,20 +72,23 @@ pipeline {
   }
 
   post { 
+
+    publishers {
+        git {
+            pushOnlyIfSuccess()
+            tag('origin', 'foo-PIPELINE_VERSION') {
+                message('Release PIPELINE_VERSION')
+                create()
+            }
+        }
+    }
+
+
     cleanup { 
       cleanWs()
     }
+
+
   }
-
-            publishers {
-                git {
-                    pushOnlyIfSuccess()
-                    tag('origin', 'foo-PIPELINE_VERSION') {
-                        message('Release PIPELINE_VERSION')
-                        create()
-                    }
-                }
-            }
-
 
 }
