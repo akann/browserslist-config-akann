@@ -38,7 +38,7 @@ pipeline {
       steps {
         script {
           git url: env.GIT_URL,
-                  credentialsId: '5643a13a-8eb7-45d6-a68d-2718a89d189f',
+                  credentialsId: 'bef5392-cccc-4cd4-9379-20998cbae0fb',
                   branch: BRANCH_NAME
 
           sh 'yarn version:up'
@@ -50,6 +50,11 @@ pipeline {
 
            if (BRANCH_NAME != 'master') {
              sh 'git diff'
+
+             sh 'git diff'
+             sh 'git add package.json'
+             sh 'git commit -m "version++" package.json'
+             sh "git push --set-upstream origin HEAD:${BRANCH_NAME}"
 
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
            }
