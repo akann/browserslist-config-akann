@@ -37,29 +37,25 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          sh "git checkout ${BRANCH_NAME}"
+          def remoteVersion = sh(
+            script: "npm info browserslist-config-akann version",
+            returnStdout: true
+          ).trim().replace('"', '')
+
+          sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
           sh 'yarn version:up'
 
           def localVersion = sh(
              script: 'node -pe "require(\'./package.json\').version"',
              returnStdout: true
-           ).trim().replace('"', '')
+          ).trim().replace('"', '')
 
-           if (BRANCH_NAME != 'master') {
-             sh 'git diff'
-
-             sh 'git diff'
-             sh 'git add package.json'
-             sh 'git commit -m "version++"'
-             
-             def msg = sh(script: "git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
-             sh "git tag -a v${localVersion} -m '${msg}'"
+          if (BRANCH_NAME != 'master') {
              sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
-           }
+          }
 
-           echo 'herex'
+          sh "npm publish ./ --dry-run"
 
-           sh "npm publish ./ --dry-run"
         }
       }
     }
