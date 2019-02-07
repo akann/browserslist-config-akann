@@ -55,7 +55,6 @@ pipeline {
           }
 
           sh "npm publish ./ --dry-run"
-
         }
       }
     }
@@ -68,23 +67,10 @@ pipeline {
   }
 
   post { 
-
     cleanup { 
       cleanWs()
     }
-
-
   }
 
 }
-    publishers {
-        git {
-            pushOnlyIfSuccess()
-            tag('origin', 'foo-PIPELINE_VERSION') {
-                message('Release PIPELINE_VERSION')
-                create()
-            }
-        }
-    }
-
 
