@@ -40,14 +40,16 @@ pipeline {
           def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
 
           sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
-          sh 'npm --no-git-tag-version version patch'
+          if (BRANCH_NAME == 'master') {
+            sh 'npm --no-git-tag-version version patch'
+          }
 
           def localVersion = sh( script: 'node -pe "require(\'./package.json\').version"', returnStdout: true).trim()
 
           def newVersion = localVersion
 
           if (BRANCH_NAME != 'master') {
-             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '')}"
+             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '')}.${BUILD_NUMBER}"
           }
 
           sh "git checkout ${BRANCH_NAME}"
@@ -62,7 +64,11 @@ pipeline {
 
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
-          sh "npm publish ./ --dry-run"
+          if (BRANCH_NAME == 'master') {
+            sh "npm publish ./"
+          } else {
+            sh "npm publish ./ --tag beta"
+          }
         }
       }
     }
