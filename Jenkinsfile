@@ -18,7 +18,8 @@ pipeline {
   stages {
     stage('npmrc') {
       steps {
-        withNPM(npmrcConfig: 'npmrc') { }
+        withNPM(npmrcConfig: 'npmrc') { 
+        }
       }
     }
 
