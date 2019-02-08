@@ -49,7 +49,7 @@ pipeline {
           def newVersion = localVersion
 
           if (BRANCH_NAME != 'master') {
-             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '')}"
+             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '').${env.BUILD_NUMBER}}"
           }
 
           sh "git checkout ${BRANCH_NAME}"
