@@ -42,6 +42,10 @@ pipeline {
             returnStdout: true
           ).trim().replace('"', '')
 
+          sshagent (credentials: ['GHUSERPWD']) {
+             sh "git status"
+          }
+
           sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
           sh 'yarn version:up'
 
