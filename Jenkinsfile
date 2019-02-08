@@ -57,6 +57,7 @@ pipeline {
           }
 
           sh "git checkout ${BRANCH_NAME}"
+          sh "git remote get-url origin"
 
           def gitTag = sh(script:"git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
 
