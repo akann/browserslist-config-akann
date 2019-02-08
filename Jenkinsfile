@@ -49,7 +49,7 @@ pipeline {
           def newVersion = localVersion
 
           if (BRANCH_NAME != 'master') {
-             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '').${env.BUILD_NUMBER}}"
+             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '')}.${BUILD_NUMBER}"
           }
 
           sh "git checkout ${BRANCH_NAME}"
@@ -65,9 +65,9 @@ pipeline {
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
           if (BRANCH_NAME == 'master') {
-            sh "npm publish ./"
+            sh "npm publish ./ --dry-run"
           } else {
-            sh "npm publish ./ --tag beta"
+            sh "npm publish ./ --tag beta --dry-run"
           }
         }
       }
