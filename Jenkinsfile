@@ -62,7 +62,11 @@ pipeline {
 
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
-          sh "npm publish ./"
+          if (BRANCH_NAME == 'master') {
+            sh "npm publish ./"
+          } else {
+            sh "npm publish ./ --tag beta"
+          }
         }
       }
     }
