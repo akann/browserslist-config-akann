@@ -60,10 +60,10 @@ pipeline {
 
           def gitTag = "git log --pretty=format:'%h : %an : %ae : %s' -1"
 
-          sh "git tag -a v${newVersion} -m '${gitTag}'"
+          sh "git tag -a v${newVersion} -m \"`${gitTag}`\""
           sh "git push --tags"
 
-          sh "yarn version --no-git-tag-version --new-version \"${newVersion}\""
+          sh "yarn version --no-git-tag-version --new-version '${newVersion}'"
 
           sh "npm publish ./ --dry-run"
         }
