@@ -37,28 +37,20 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          def remoteVersion = sh(
-            script: "npm info browserslist-config-akann version",
-            returnStdout: true
-          ).trim().replace('"', '')
+          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
 
-          sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
-          sh 'yarn version:up'
+          sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
+          sh 'npm --no-git-tag-version version patch'
 
-          def localVersion = sh(
-             script: 'node -pe "require(\'./package.json\').version"',
-             returnStdout: true
-          ).trim().replace('"', '')
+          def localVersion = sh( script: 'node -pe "require(\'./package.json\').version"', returnStdout: true).trim()
 
           def newVersion = localVersion
 
           if (BRANCH_NAME != 'master') {
-             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}"
+             newVersion = "${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('[^A-Za-z0-9]', '')}"
           }
 
           sh "git checkout ${BRANCH_NAME}"
-          sh "git remote get-url origin"
-
           def gitTag = sh(script:"git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
 
           withCredentials([
@@ -68,7 +60,7 @@ pipeline {
               sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
           }
 
-          sh "yarn version --no-git-tag-version --new-version '${newVersion}'"
+          sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
           sh "npm publish ./ --dry-run"
         }
