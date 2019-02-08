@@ -40,7 +40,9 @@ pipeline {
           def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
 
           sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
-          sh 'npm --no-git-tag-version version patch'
+          if (BRANCH_NAME == 'master') {
+            sh 'npm --no-git-tag-version version patch'
+          }
 
           def localVersion = sh( script: 'node -pe "require(\'./package.json\').version"', returnStdout: true).trim()
 
