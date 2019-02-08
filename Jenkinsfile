@@ -44,6 +44,7 @@ pipeline {
 
           sh "git checkout ${BRANCH_NAME}"
           sh "git remote get-url origin"
+          sh "cat /etc/passwd"
           sh "git ls-remote origin"
           sh "git status"
 
