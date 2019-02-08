@@ -2,6 +2,7 @@
   "name": "browserslist-config-akann",
   "description": "Shareable Browserslist Config by Akan Nkweini",
   "main": "index.js",
+  "version": "1.0.2",
   "scripts": {
     "test": "node ./"
   },

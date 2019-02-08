@@ -65,9 +65,9 @@ pipeline {
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
           if (BRANCH_NAME == 'master') {
-            sh "npm publish ./ --dry-run"
+            sh "npm publish ./"
           } else {
-            sh "npm publish ./ --tag beta --dry-run"
+            sh "npm publish ./ --tag beta"
           }
         }
       }
