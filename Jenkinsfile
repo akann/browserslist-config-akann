@@ -44,6 +44,7 @@ pipeline {
 
           sh "git checkout ${BRANCH_NAME}"
           sh "git remote get-url origin"
+          sh 'echo "jenkins:x:$(id -u):$(id -g):Jenkins:${HOME}:/sbin/nologin" >> /etc/passwd'
           sh "cat /etc/passwd"
           sh "git ls-remote origin"
           sh "git status"
