@@ -57,7 +57,10 @@ pipeline {
           }
 
           sh "git checkout ${BRANCH_NAME}"
-          sh "git tag -a v${newVersion} -m \"$(git log --pretty=format:'%h : %an : %ae : %s' -1)\""
+
+          def gitTag = "git log --pretty=format:'%h : %an : %ae : %s' -1"
+
+          sh "git tag -a v${newVersion} -m '${gitTag}'"
           sh "git push --tags"
 
           sh "yarn version --no-git-tag-version --new-version \"${newVersion}\""
