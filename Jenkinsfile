@@ -62,7 +62,7 @@ pipeline {
 
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
-          sh "npm publish ./ --dry-run"
+          sh "npm publish ./"
         }
       }
     }
