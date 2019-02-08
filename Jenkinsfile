@@ -16,11 +16,6 @@ pipeline {
   }
 
   stages {
-    stage('npmrc') {
-      steps {
-        withNPM(npmrcConfig: 'npmrc') { }
-      }
-    }
 
     stage('build') {
       steps {
@@ -29,39 +24,6 @@ pipeline {
           sh "git remote get-url origin"
           sh "git ls-remote origin"
           sh "git status"
-        sh 'yarn install'
-      }
-    }
-
-    stage('test') {
-      steps {
-        sh 'yarn test'
-      }
-    }
-
-    stage('publish') {
-      steps {
-        script {
-          def remoteVersion = sh(
-            script: "npm info browserslist-config-akann version",
-            returnStdout: true
-          ).trim().replace('"', '')
-
-
-          sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
-          sh 'yarn version:up'
-
-          def localVersion = sh(
-             script: 'node -pe "require(\'./package.json\').version"',
-             returnStdout: true
-          ).trim().replace('"', '')
-
-          if (BRANCH_NAME != 'master') {
-             sh "yarn version --no-git-tag-version --new-version \"${localVersion}-${BRANCH_NAME.toLowerCase().replaceAll('-', '')}\""
-          }
-
-          sh "npm publish ./ --dry-run"
-        }
       }
     }
 
