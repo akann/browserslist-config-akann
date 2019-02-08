@@ -24,6 +24,11 @@ pipeline {
 
     stage('build') {
       steps {
+
+          sh "git checkout ${BRANCH_NAME}"
+          sh "git remote get-url origin"
+          sh "git ls-remote origin"
+          sh "git status"
         sh 'yarn install'
       }
     }
@@ -42,10 +47,6 @@ pipeline {
             returnStdout: true
           ).trim().replace('"', '')
 
-          sh "git checkout ${BRANCH_NAME}"
-          sh "git remote get-url origin"
-          sh "git ls-remote origin"
-          sh "git status"
 
           sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
           sh 'yarn version:up'
