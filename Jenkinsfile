@@ -42,13 +42,10 @@ pipeline {
             returnStdout: true
           ).trim().replace('"', '')
 
-          sshagent (credentials: ['d76aa6e6-c911-4491-9c38-9712b1a81743']) {
-             sh "git checkout ${BRANCH_NAME}"
-             sh "git remote get-url origin"
-             sh "git ls-remote origin"
-             sh "git status"
-             sh "git push"
-          }
+          sh "git checkout ${BRANCH_NAME}"
+          sh "git remote get-url origin"
+          sh "git ls-remote origin"
+          sh "git status"
 
           sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
           sh 'yarn version:up'
