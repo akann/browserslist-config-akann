@@ -64,8 +64,8 @@ pipeline {
           withCredentials([
               usernamePassword(credentialsId: 'GHUSERPWD', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
             ]) {
-              sh "git tag -d -a v${newVersion} -m '${gitTag}'"
-              sh "git push --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
+              sh "git tag -f -a v${newVersion} -m '${gitTag}'"
+              sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
           }
 
           sh "yarn version --no-git-tag-version --new-version '${newVersion}'"
