@@ -45,6 +45,7 @@ pipeline {
           sshagent (credentials: ['d76aa6e6-c911-4491-9c38-9712b1a81743']) {
              sh "git checkout ${BRANCH_NAME}"
              sh "git remote get-url origin"
+             sh "git ls-remote origin"
              sh "git status"
              sh "git push"
           }
