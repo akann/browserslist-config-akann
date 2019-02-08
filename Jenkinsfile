@@ -60,7 +60,7 @@ pipeline {
 
           def gitTag = sh(script:"git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
 
-          sh "git tag -a v${newVersion} -m '${gitTag}'"
+          sh "git tag -a v${newVersion} -m 'this version'"
           sh "git push --tags"
 
           sh "yarn version --no-git-tag-version --new-version '${newVersion}'"
