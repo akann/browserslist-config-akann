@@ -44,6 +44,7 @@ pipeline {
 
           sshagent (credentials: ['	5643a13a-8eb7-45d6-a68d-2718a89d189f']) {
              sh "git status"
+             sh "git push"
           }
 
           sh "yarn version --no-git-tag-version --new-version ${remoteVersion}"
