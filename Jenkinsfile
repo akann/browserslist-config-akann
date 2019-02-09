@@ -18,7 +18,8 @@ pipeline {
   stages {
     stage('npmrc') {
       steps {
-        withNPM(npmrcConfig: 'npmrc') { }
+        withNPM(npmrcConfig: 'npmrc') { 
+        }
       }
     }
 
@@ -65,9 +66,9 @@ pipeline {
           sh "npm version --no-git-tag-version --allow-same-version --new-version '${newVersion}'"
 
           if (BRANCH_NAME == 'master') {
-            sh "npm publish ./"
+            sh "npm publish ./ --dry-run"
           } else {
-            sh "npm publish ./ --tag beta"
+            sh "npm publish ./ --tag beta --dry-run"
           }
         }
       }
