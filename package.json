@@ -1,7 +1,7 @@
 {
   "name": "browserslist-config-akann",
   "description": "Shareable Browserslist Config by Akan Nkweini",
-  "version": "1.0.3-demo.0",
+  "version": "1.0.4",
   "main": "index.js",
   "scripts": {
     "test": "node ./",
@@ -26,7 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'pre-commit; pre-commit; pre-commit;'"
+      "pre-commit": "yarn up:version && git add package.json"
     }
   },
   "devDependencies": {
