@@ -40,7 +40,7 @@ pipeline {
         script {
           if (BRANCH_NAME == 'master') {
             sh 'npm --no-git-tag-version version patch'
-            sh "npm publish ./ --dry-run"
+            sh "npm publish ./"
           }
         }
       }
