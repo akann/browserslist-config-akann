@@ -36,12 +36,15 @@ pipeline {
     }
 
     stage('publish') {
+      when {
+        branch 'master'
+      }
       steps {
         script {
-          if (BRANCH_NAME == 'master') {
-            sh 'npm --no-git-tag-version version patch'
-            sh "npm publish ./"
-          }
+          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
+          sh "npm version --no-git-tag-version --new-version ${remoteVersion}"
+          sh 'npm --no-git-tag-version version patch'
+          sh "npm publish ./"
         }
       }
     }
