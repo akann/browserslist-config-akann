@@ -13,7 +13,7 @@ push_tag () {
     git commit -m 'version++'
     git tag -a "v${NEW_VERSION}" -m 'version++'
 
-    git push --follow-tag
+    git push --set-upstream origin ${BRANCH_NAME} --follow-tag
 }
 
 if [ "x${BRANCH_NAME}" = "xmaster" ]; then
