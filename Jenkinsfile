@@ -41,10 +41,7 @@ pipeline {
       }
       steps {
         script {
-          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
-          sh "npm version --no-git-tag-version --new-version ${remoteVersion}"
-          sh 'npm --no-git-tag-version version patch'
-          sh "npm publish ./"
+          sh 'yarn release'
         }
       }
     }
