@@ -7,20 +7,22 @@ fi
 TAG_NAME=$(echo "${BRANCH_NAME}" | tr 'A-Z' 'a-z' | tr -cd '[[:alnum:]]')
 
 push_tag () {
+    NEW_VERSION=$(node -pe "require('./package.json').version")
+
     git add package.json
     git commit -m 'version++'
-    git tag -a "v$1" -m 'version++'
+    git tag -a "v${NEW_VERSION}" -m 'version++'
 
-    git push --follow-tag
+    git push --set-upstream origin $BRANCH_NAME --follow-tag
 }
 
-if [ "x${BRANCH}" = "xmaster" ]; then
-    npm version --no-git-tag-version --new-version ${REMOTE_VERION}
+if [ "x${BRANCH_NAME}" = "xmaster" ]; then
+    npm version --no-git-tag-version --allow-same-version --new-version ${REMOTE_VERION}
     npm --no-git-tag-version version patch
 
-    npm publish ./
+    #npm publish ./
 
-    push_tag $(node -pe "require('./package.json').version")
+    push_tag 
 else 
     CURRENT_VERSION=$(node -pe "require('./package.json').version")
     CURRENT_TAG_NAME=$(echo ${CURRENT_VERSION} | sed "s/[0-9].*\.[0-9].*\.[0-9].*-\(${TAG_NAME}\)\.[0-9].*$/\1/")
@@ -31,7 +33,7 @@ else
     
     npm version --no-git-tag-version  prerelease --preid=${TAG_NAME}
 
-    push_tag $(node -pe "require('./package.json').version")
+    push_tag
 fi
 
 
