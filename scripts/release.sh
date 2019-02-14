@@ -20,7 +20,7 @@ if [ "x${BRANCH}" = "xmaster" ]; then
 
     npm publish ./
 
-    #push_tag $(node -pe "require('./package.json').version")
+    push_tag $(node -pe "require('./package.json').version")
 else 
     CURRENT_VERSION=$(node -pe "require('./package.json').version")
     CURRENT_TAG_NAME=$(echo ${CURRENT_VERSION} | sed "s/[0-9].*\.[0-9].*\.[0-9].*-\(${TAG_NAME}\)\.[0-9].*$/\1/")
