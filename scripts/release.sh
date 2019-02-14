@@ -21,7 +21,7 @@ if [ "x${BRANCH_NAME}" = "xmaster" ]; then
     npm version --no-git-tag-version --allow-same-version --new-version ${REMOTE_VERION}
     npm --no-git-tag-version version patch
 
-    #npm publish ./
+    npm publish ./
 
     push_tag 
 else 
