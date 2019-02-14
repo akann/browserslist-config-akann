@@ -7,7 +7,7 @@ fi
 TAG_NAME=$(echo "${BRANCH_NAME}" | tr 'A-Z' 'a-z' | tr -cd '[[:alnum:]]')
 
 push_tag () {
-    git co $BRANCH_NAME
+    git checkout $BRANCH_NAME
     NEW_VERSION=$(node -pe "require('./package.json').version")
 
     git add package.json
