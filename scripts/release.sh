@@ -9,7 +9,7 @@ TAG_NAME=$(echo "${BRANCH_NAME}" | tr 'A-Z' 'a-z' | tr -cd '[[:alnum:]]')
 push_tag () {
     git add package.json
     git commit -m 'version++'
-    git tag -a "v$1"
+    git tag -a "v$1" -m 'version++'
 
     git push --follow-tag
 
