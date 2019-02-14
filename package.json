@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./",
-    "release": "sh scripts/release.sh"
+    "release": "yarn && sh scripts/release.sh"
   },
   "keywords": [
     "browserslist",
