@@ -12,8 +12,6 @@ push_tag () {
     git tag -a "v$1" -m 'version++'
 
     git push --follow-tag
-
-    push_tag $(node -pe "require('./package.json').version")
 }
 
 if [ "x${BRANCH}" = "xmaster" ]; then
@@ -21,6 +19,8 @@ if [ "x${BRANCH}" = "xmaster" ]; then
     npm --no-git-tag-version version patch
 
     npm publish ./
+
+    #push_tag $(node -pe "require('./package.json').version")
 else 
     CURRENT_VERSION=$(node -pe "require('./package.json').version")
     CURRENT_TAG_NAME=$(echo ${CURRENT_VERSION} | sed "s/[0-9].*\.[0-9].*\.[0-9].*-\(${TAG_NAME}\)\.[0-9].*$/\1/")
@@ -30,8 +30,6 @@ else
     fi
     
     npm version --no-git-tag-version  prerelease --preid=${TAG_NAME}
-
-    NEW_VERSION=$(node -pe "require('./package.json').version")
 
     push_tag $(node -pe "require('./package.json').version")
 fi
