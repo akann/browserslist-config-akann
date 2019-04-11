@@ -38,10 +38,7 @@ pipeline {
     stage('publish') {
       steps {
         script {
-          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
-
           if (BRANCH_NAME == 'master') {
-            sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
             sh 'npm --no-git-tag-version version patch'
           }
 
