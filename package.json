@@ -1,11 +1,11 @@
 {
   "name": "browserslist-config-akann",
   "description": "Shareable Browserslist Config by Akan Nkweini",
-  "version": "1.0.12-demo.0",
+  "version": "1.0.12-demo.1",
   "main": "index.js",
   "scripts": {
     "test": "node ./",
-    "gittag": "yarn && sh scripts/gittag.sh"
+    "version:up": "sh scripts/version.sh"
   },
   "keywords": [
     "browserslist",
@@ -26,7 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test"
+      "pre-commit": "yarn && yarn test && yarn version:up"
     }
   },
   "devDependencies": {
