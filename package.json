@@ -28,8 +28,5 @@
     "hooks": {
       "pre-commit": "yarn && yarn test && yarn version:up"
     }
-  },
-  "devDependencies": {
-    "husky": "^1.3.1"
   }
 }

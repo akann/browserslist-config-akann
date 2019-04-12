@@ -15,7 +15,6 @@ if [ "x${BRANCH_NAME}" != "xmaster" ]; then
     if [ "x${IS_MODIFIED}" != 'xpackage.json' ]; then
         if [ "x$CURRENT_TAG_NAME" != "x${TAG_NAME}" ]; then
             npm version --no-git-tag-version --allow-same-version --new-version ${REMOTE_VERSION}
-            npm --no-git-tag-version version patch
         fi
         
         npm version --no-git-tag-version  prerelease --preid=${TAG_NAME}
