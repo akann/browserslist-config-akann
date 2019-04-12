@@ -43,6 +43,9 @@ pipeline {
         script {
           def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
 
+          sh "echo ${env}"
+          sh "echo ${remoteVersion}"
+
           def versionRev = "${remoteVersion}".trim().replaceAll(/^(\d+)\.(\d+)\.(\d+)$/,
               { all, major, minor, patch -> Integer.valueOf(patch) < 900 ? "patch" : (Integer.valueOf(minor) < 900 ? 'minor' : 'major')}
           )
