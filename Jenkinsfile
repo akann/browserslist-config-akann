@@ -46,8 +46,6 @@ pipeline {
 
           def versionRev = patch.toInteger() < 900 ? "patch" : (minor.toInteger() < 900 ? 'minor' : 'major')
 
-          sh "echo remoteVersion: '${versionRev}'"
-
           sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
           sh "npm --no-git-tag-version version ${versionRev}"
 
@@ -63,7 +61,7 @@ pipeline {
               sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
           }
 
-          echo "npm publish ./"
+          sh "npm publish ./"
         }
       }
     }
