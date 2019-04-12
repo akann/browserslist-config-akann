@@ -50,6 +50,8 @@ pipeline {
               { all, major, minor, patch -> Integer.valueOf(patch) < 900 ? "patch" : (Integer.valueOf(minor) < 900 ? 'minor' : 'major')}
           )
 
+          sh "echo ${versionRev}"
+
           sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
           sh "npm --no-git-tag-version version ${versionRev}"
 
