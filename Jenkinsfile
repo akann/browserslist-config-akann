@@ -47,7 +47,7 @@ pipeline {
           sh "echo ${remoteVersion}"
 
           def versionRev = "${remoteVersion}".trim().replaceAll(/^(\d+)\.(\d+)\.(\d+)$/,
-              { all, major, minor, patch -> Integer.valueOf(patch) < 900 ? "patch" : (Integer.valueOf(minor) < 900 ? 'minor' : 'major')}
+              { all, major, minor, patch -> patch.toInteger() < 900 ? "patch" : (minor.toInteger() < 900 ? 'minor' : 'major')}
           )
 
           sh "echo remoteVersion: '${versionRev}'"
