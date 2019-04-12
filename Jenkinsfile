@@ -41,10 +41,6 @@ pipeline {
       }
       steps {
         script {
-          for(e in env){
-            echo e + " is " + ${e}
-          }
-
           echo sh(returnStdout: true, script: 'env')
 
           def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
