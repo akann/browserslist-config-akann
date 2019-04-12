@@ -36,11 +36,19 @@ pipeline {
     }
 
     stage('publish') {
+      when {
+        branch 'master'
+      }
       steps {
         script {
-          if (BRANCH_NAME == 'master') {
-            sh 'npm --no-git-tag-version version patch'
-          }
+          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
+
+          def versionRev = "${remoteVersion}".trim().replaceAll(/^(\d+)\.(\d+)\.(\d+)$/,
+              { all, major, minor, patch -> Integer.valueOf(patch) < 900 ? "patch" : (Integer.valueOf(minor) < 900 ? 'minor' : 'major')}
+          )
+
+          sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
+          sh "npm --no-git-tag-version version ${versionRev}"
 
           withCredentials([
               usernamePassword(credentialsId: 'GHUSERPWD', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
@@ -54,9 +62,7 @@ pipeline {
               sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
           }
 
-          if (BRANCH_NAME == 'master') {
-            sh "npm publish ./"
-          }
+          sh "npm publish ./"
         }
       }
     }
