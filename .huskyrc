@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "yarn && yarn test && yarn version:up"
+  }
+}
