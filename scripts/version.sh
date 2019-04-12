@@ -1,3 +1,4 @@
+REMOTE_VERSION=$(npm info browserslist-config-akann version)
 CURRENT_VERSION=$(node -pe "require('./package.json').version")
 
 if [ "x${BRANCH_NAME}" = "x" ]; then
@@ -13,6 +14,7 @@ if [ "x${BRANCH_NAME}" != "xmaster" ]; then
 
     if [ "x${IS_MODIFIED}" != 'xpackage.json' ]; then
         if [ "x$CURRENT_TAG_NAME" != "x${TAG_NAME}" ]; then
+            npm version --no-git-tag-version --allow-same-version --new-version ${REMOTE_VERSION}
             npm --no-git-tag-version version patch
         fi
         
