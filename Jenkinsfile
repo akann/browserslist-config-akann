@@ -42,13 +42,9 @@ pipeline {
       steps {
         script {
           def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
+          def (major, minor, patch) = remoteVersion.tokenize('.');
 
-          sh "echo ${env}"
-          sh "echo ${remoteVersion}"
-
-          def versionRev = remoteVersion.eachMatch(/^(\d+)\.(\d+)\.(\d+)$/,
-              { all, major, minor, patch -> patch.toInteger() < 900 ? "patch" : (minor.toInteger() < 900 ? 'minor' : 'major')}
-          )
+          def versionRev = patch.toInteger() < 900 ? "patch" : (minor.toInteger() < 900 ? 'minor' : 'major')
 
           sh "echo remoteVersion: '${versionRev}'"
 
@@ -67,7 +63,7 @@ pipeline {
               sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
           }
 
-          sh "npm publish ./"
+          echo "npm publish ./"
         }
       }
     }
