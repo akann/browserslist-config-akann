@@ -1,12 +1,79 @@
-// Powered by Infostretch 
+pipeline {
+  agent {
+    dockerfile true
+  }
 
-timestamps {
+  options {
+    timeout(time: 1, unit: 'HOURS')
+    timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
 
-node () {
+  environment {
+    SLS_DEBUG = "*"
+    HOME = "${env.WORKSPACE}"
+    BRANCH_NAME = env.GIT_BRANCH.substring(env.GIT_BRANCH.lastIndexOf('/') + 1, env.GIT_BRANCH.length())
+  }
 
-	stage ('FreeStyle - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GHUSERPWD', url: 'https://github.com/akann/browserslist-config-akann']]]) 
-	}
-// Unable to convert a build step referring to "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and convert manually if required.
+  stages {
+    stage('npmrc') {
+      steps {
+        withNPM(npmrcConfig: 'npmrc') { 
+        }
+      }
+    }
+
+    stage('build') {
+      steps {
+        sh 'yarn install'
+      }
+    }
+
+    stage('test') {
+      steps {
+        sh 'yarn test'
+      }
+    }
+
+    stage('publish') {
+      when {
+        branch 'master'
+      }
+      steps {
+        script {
+          echo sh(returnStdout: true, script: 'env')
+
+          def remoteVersion = sh(script: "npm info browserslist-config-akann version", returnStdout: true).trim()
+          def (major, minor, patch) = remoteVersion.tokenize('.');
+
+          def versionRev = patch.toInteger() < 900 ? "patch" : (minor.toInteger() < 900 ? 'minor' : 'major')
+
+          sh "npm version --no-git-tag-version --allow-same-version --new-version ${remoteVersion}"
+          sh "npm --no-git-tag-version version ${versionRev}"
+
+          withCredentials([
+              usernamePassword(credentialsId: 'GHUSERPWD', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
+            ]) {
+              def newVersion = sh( script: 'node -pe "require(\'./package.json\').version"', returnStdout: true).trim()
+
+              sh "git checkout ${BRANCH_NAME}"
+              def gitTag = sh(script:"git log --pretty=format:'%h : %an : %ae : %s' -1", returnStdout: true)
+
+              sh "git tag -f -a v${newVersion} -m '${gitTag}'"
+              sh "git push -f --tags ${env.GIT_URL.replace('github', '${GIT_USERNAME}:${GIT_PASSWORD}@github')}"
+          }
+
+          sh "npm publish ./"
+        }
+      }
+    }
+  }
+
+  post { 
+    cleanup { 
+      cleanWs()
+    }
+  }
+
 }
-}
+
