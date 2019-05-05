@@ -3,6 +3,7 @@
 [![MIT License][license-image]][license-url]
 [![Version][version-image]][version-url]
 
+[![Build Status](http://jenkins.akan.nkweini.com/buildStatus/icon?job=AkanMulti%2Fmaster)](http://jenkins.akan.nkweini.com/job/AkanMulti/job/master/)
 This configuration is Akan Nkweini's personal preference but (for now) reflects Google's supported browser policy for their suite of web applications.
 
 As such, most of it is taken straight from: [browserslist-config-google](https://github.com/awkaiser/browserslist-config-google/)
